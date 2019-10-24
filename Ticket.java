@@ -80,7 +80,7 @@ public void addFilaPreferencial(ArrayList<Ticket> fila){
  public void atendeFila(ArrayList<Ticket> fila){
   int tamanhoFila = fila.size();
   int contaFila = 0;
-  boolean regraPreferencial = false;
+  int regraPreferencial = 0;
  // for(int i = 0; xt > i; i++){
  do{
     int status = fila.get(contaFila).getStatusAtendimento();
@@ -88,19 +88,19 @@ public void addFilaPreferencial(ArrayList<Ticket> fila){
     if(status == 0 && tipoTicket.equals("P")){
       fila.get(contaFila).setStatusAtendimento(1);
       fila.get(contaFila).setTicketChamado(1);
-      regraPreferencial = true;
+      regraPreferencial = 1;
       break;
     }
     contaFila++;
    }while (tamanhoFila > contaFila);
-    if(regraPreferencial == false){
+    if(regraPreferencial == 0){
 
     for(int i = 0; tamanhoFila > i; i++ ){
      int status = fila.get(i).getStatusAtendimento();
      String tipoTicket = fila.get(i).getTicketNormal().substring(0,1);
      if(status == 0 && tipoTicket.equals("N")){
         fila.get(i).setStatusAtendimento(1);
-	fila.get(i).setTicketChamado(true);
+	fila.get(i).setTicketChamado(1);
         break;
      }
     }
