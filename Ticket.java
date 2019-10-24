@@ -12,7 +12,7 @@ public class Ticket{
  private String ticketNormal;
  private String ticketPreferencial;
  private int statusAtendimento;
- private boolean ticketChamado = false;
+ private int ticketChamado;
  
  public String getTicketNormal(){
   return ticketNormal;
@@ -35,11 +35,11 @@ public String getTicketPreferencial(){
   statusAtendimento = x;
  }
 
- public boolean getTicketChamado(){
+ public int getTicketChamado(){
   return ticketChamado;
  }
- private void setTicketNormal(boolean newTicket){
-  ticketChamado = newTicket;
+ private void setTicketChamado(int x){
+  ticketChamado = x;
  }
 
 /**
@@ -53,6 +53,7 @@ public String getTicketPreferencial(){
   String str = String.format ("%04d", totalFila);
   ticket.setTicketNormal("N"+str);
   ticket.setStatusAtendimento(0);
+  ticket.setTicketChamado(0);
   fila.add(ticket);
  }
 
@@ -67,6 +68,7 @@ public void addFilaPreferencial(ArrayList<Ticket> fila){
   String str = String.format ("%04d", totalFila);
   ticket.setTicketPreferencial("P"+str);
   ticket.setStatusAtendimento(0);
+  ticket.setTicketChamado(0);
   fila.add(ticket);
  } 
 /**
@@ -85,7 +87,7 @@ public void addFilaPreferencial(ArrayList<Ticket> fila){
     String tipoTicket = fila.get(contaFila).getTicketPreferencial().substring(0,1);
     if(status == 0 && tipoTicket.equals("P")){
       fila.get(contaFila).setStatusAtendimento(1);
-      fila.get(contaFila).setTicketChamado(true);
+      fila.get(contaFila).setTicketChamado(1);
       regraPreferencial = true;
       break;
     }

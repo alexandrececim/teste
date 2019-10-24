@@ -75,5 +75,31 @@ do {
    System.out.println("******************");
    System.out.println("*Fim do Sistema*");
 
- }  
+ }
+ 
+ // Metodo que mostra o ticket chamado da lista de atendimento
+ private static String emAtendimento(ArrayList<Ticket> fila){
+  int xt = fila.size();
+  int ticketEmAtendimento;
+  String chamadaFila = "";
+// for inverso para pegar a ultima alteração da lista
+  for(int i = xt - 1; i >= 0; i++){
+  ticketEmAtendimento = fila.get(i).getTicketChamado();
+  System.out.println("A boolean: " + fila.get(i).getTicketChamado());
+  if(ticketEmAtendimento == 1){
+    String pref = fila.get(i).getTicketPreferencial();
+   // if(isEmpty(fila.get(i).getTicketPreferencial())){
+    if(pref.isEmpty()){
+      chamadaFila = fila.get(i).getTicketPreferencial();
+      
+    }else{
+      chamadaFila = fila.get(i).getTicketNormal();
+      
+    }
+  }
+}
+  return chamadaFila;
+
+}
+
 }
