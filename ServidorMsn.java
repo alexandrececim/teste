@@ -74,8 +74,7 @@ public class ServidorMsn{
       if(msnParm.equals("c2")){
         
         ticket.addFilaNormal(fila);
-        String teste = emAtendimento(fila);
-        System.out.println("Elemento: " + teste);
+       
       }
 
       if(msnParm.equals("c3")){
@@ -85,6 +84,8 @@ public class ServidorMsn{
 
       if(msnParm.equals("c4")){
         ticket.atendeFila(fila); 
+        String teste = emAtendimento(fila);
+        System.out.println("Elemento: " + teste);
       }
       
       if(msnParm.equals("c5")){
@@ -110,12 +111,14 @@ public class ServidorMsn{
     if(ticketEmAtendimento == 1){
       String pref = fila.get(i).getTicketPreferencial();
      // if(isEmpty(fila.get(i).getTicketPreferencial())){
+      System.out.println("A boolean: " + fila.get(i).getTicketPreferencial());
+      
       if(pref.isEmpty()){
         chamadaFila = fila.get(i).getTicketPreferencial();
-        
+        break;
       }else{
         chamadaFila = fila.get(i).getTicketNormal();
-        
+        break;
       }
     }
   }
