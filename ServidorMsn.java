@@ -1,13 +1,12 @@
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 import java.util.ArrayList;
-import Ticket;
+import java.util.Scanner;
 
 public class ServidorMsn{
  
-
+  private static String consultaChamada = "";
   public static void main(String[] args) {
    //System.out.println("Alouu");
     ArrayList<Ticket> fila = new ArrayList<Ticket>();
@@ -32,10 +31,17 @@ public class ServidorMsn{
       System.out.println("Msn: " + msnCliente);
 
         protocoloMsn(msnCliente, fila);
-
+        
+      //resposta
+      if(consultaChamada.isEmpty()){
         PrintStream saida = new PrintStream(cliente.getOutputStream());
-        saida.println("Servidor respondendo !");
 
+        saida.println("Servidor respondendo !");
+      }else{
+        PrintStream saida = new PrintStream(cliente.getOutputStream());
+
+        saida.println(consultaChamada);
+      }
         cliente.close();
         entrada.close();
       }
@@ -84,15 +90,25 @@ public class ServidorMsn{
 
       if(msnParm.equals("c4")){
         ticket.atendeFila(fila); 
-        String teste = emAtendimento(fila);
-        System.out.println("Elemento: " + teste);
+       
       }
       
       if(msnParm.equals("c5")){
-        //aqui o servidor lança uma mensagem de retorno
+        String callTicket = emAtendimento(fila);
+        System.out.println("Elemento: " + callTicket);
+        consultaChamada = callTicket;
         
       }
-      
+      System.out.println("####### Fila #######");
+
+    //visualizar lista para teste do sistema   
+      int xt = fila.size();
+      for(int i = 0; xt > i; i++){
+           System.out.println("["+i+"] "+	fila.get(i).getTicketNormal() + " .... At.: " +	fila.get(i).getStatusAtendimento() + " .... Ch.: " +	fila.get(i).getTicketChamado());
+      }
+      System.out.println("******************");
+    //fim da visualização
+
     }else{
      System.out.println("Conexão não autorizada");
     }
@@ -102,26 +118,41 @@ public class ServidorMsn{
 // Metodo que mostra o ticket chamado da lista de atendimento
   private static String emAtendimento(ArrayList<Ticket> fila){
     int xt = fila.size();
+    ArrayList<String> filaChamada = new ArrayList<String>();
+
     int ticketEmAtendimento;
     String chamadaFila = "";
+    
   // for inverso para pegar a ultima alteração da lista
-    for(int i = xt - 1; i >= 0; i++){
-    ticketEmAtendimento = fila.get(i).getTicketChamado();
-    System.out.println("A boolean: " + fila.get(i).getTicketChamado());
-    if(ticketEmAtendimento == 1){
-      String pref = fila.get(i).getTicketPreferencial();
-     // if(isEmpty(fila.get(i).getTicketPreferencial())){
-      System.out.println("A boolean: " + fila.get(i).getTicketPreferencial());
+    for(int i = xt - 1 ; i >= 0; i--){
       
-      if(pref.isEmpty()){
-        chamadaFila = fila.get(i).getTicketPreferencial();
-        break;
+      //ticketEmAtendimento = fila.get(i).getTicketChamado();
+      ticketEmAtendimento = fila.get(i).getStatusAtendimento();
+      //System.out.println("ticket em atendimento" + ticketEmAtendimento);
+
+    if(ticketEmAtendimento == 1){
+     
+     
+     // System.out.println(i);
+      if(fila.get(i).getTicketChamado() == 1){
+     
+        //chamadaFila = fila.get(i).getTicketPreferencial();
+        //break;
+        filaChamada.add(fila.get(i).getTicketPreferencial());
       }else{
-        chamadaFila = fila.get(i).getTicketNormal();
-        break;
+        //chamadaFila = fila.get(i).getTicketNormal();
+       // break;
+       filaChamada.add(fila.get(i).getTicketNormal());
       }
+      
     }
   }
+  //chama o primeiro da fila com indice zero
+  if (filaChamada.size() > 0) {
+    chamadaFila = filaChamada.get(filaChamada.size()-1);
+  }
+  
+ 
     return chamadaFila;
 
   }

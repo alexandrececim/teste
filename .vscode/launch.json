@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - TesteUnitarioTicket",
+            "request": "launch",
+            "mainClass": "TesteUnitarioTicket",
+            "projectName": "teste_720c77e5"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Cliente",
+            "request": "launch",
+            "mainClass": "Cliente",
+            "projectName": "teste_720c77e5"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ServidorMsn",
+            "request": "launch",
+            "mainClass": "ServidorMsn",
+            "projectName": "teste_720c77e5"
+        }
+    ]
+}

@@ -56,7 +56,8 @@ do {
   if(foi.equals("#")){
     System.out.println("##### Altera Status #####");
     ticket.atendeFila(fila);
-
+    String atendido = emAtendimento(fila);
+    System.out.println("*#*#* ... " + atendido);
 
     continue;
    } 
@@ -77,8 +78,8 @@ do {
 
  }
  
- // Metodo que mostra o ticket chamado da lista de atendimento
- private static String emAtendimento(ArrayList<Ticket> fila){
+// Metodo que mostra o ticket chamado da lista de atendimento
+private static String emAtendimento(ArrayList<Ticket> fila){
   int xt = fila.size();
   int ticketEmAtendimento;
   String chamadaFila = "";
@@ -89,12 +90,15 @@ do {
   if(ticketEmAtendimento == 1){
     String pref = fila.get(i).getTicketPreferencial();
    // if(isEmpty(fila.get(i).getTicketPreferencial())){
+    System.out.println("A boolean: " + fila.get(i).getTicketPreferencial());
+    System.out.println("A boolean: " + i);
+    
     if(pref.isEmpty()){
       chamadaFila = fila.get(i).getTicketPreferencial();
-      
+      break;
     }else{
       chamadaFila = fila.get(i).getTicketNormal();
-      
+      break;
     }
   }
 }
