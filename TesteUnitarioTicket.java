@@ -23,6 +23,7 @@ public class TesteUnitarioTicket{
 
  public static void main(String[] args){
   ArrayList<Ticket> fila = new ArrayList<Ticket>();
+  ArrayList<String> foiChamado = new ArrayList<String>();
   Scanner digitado = new Scanner(System.in);
   String foi = "";
   
@@ -48,15 +49,16 @@ do {
     System.out.println("####### Fila #######");
     int xt = fila.size();
     for(int i = 0; xt > i; i++){
-         System.out.println("["+i+"] "+	fila.get(i).getTicketNormal() + " .... At.: " +	fila.get(i).getStatusAtendimento());
+         System.out.println("["+i+"] "+	fila.get(i).getTicketNormal() + " .... At.: " +	fila.get(i).getStatusAtendimento() + " ... Ch: "+
+		fila.get(i).getTicketChamado());
     }
     continue;
    }
 //Muda o status do ticket(atendimento)
   if(foi.equals("#")){
     System.out.println("##### Altera Status #####");
-    ticket.atendeFila(fila);
-    String atendido = emAtendimento(fila);
+    ticket.atendeFila(fila, foiChamado);
+    String atendido = emAtendimento(foiChamado);
     System.out.println("*#*#* ... " + atendido);
 
     continue;
@@ -79,31 +81,10 @@ do {
  }
  
 // Metodo que mostra o ticket chamado da lista de atendimento
-private static String emAtendimento(ArrayList<Ticket> fila){
-  int xt = fila.size();
-  int ticketEmAtendimento;
-  String chamadaFila = "";
-// for inverso para pegar a ultima alteração da lista
-  for(int i = xt - 1; i >= 0; i++){
-  ticketEmAtendimento = fila.get(i).getTicketChamado();
-  System.out.println("A boolean: " + fila.get(i).getTicketChamado());
-  if(ticketEmAtendimento == 1){
-    String pref = fila.get(i).getTicketPreferencial();
-   // if(isEmpty(fila.get(i).getTicketPreferencial())){
-    System.out.println("A boolean: " + fila.get(i).getTicketPreferencial());
-    System.out.println("A boolean: " + i);
-    
-    if(pref.isEmpty()){
-      chamadaFila = fila.get(i).getTicketPreferencial();
-      break;
-    }else{
-      chamadaFila = fila.get(i).getTicketNormal();
-      break;
-    }
-  }
-}
+private static String emAtendimento(ArrayList<String> fila){
+  int xt = fila.size() - 1;
+  String chamadaFila = fila.get(xt);
   return chamadaFila;
 
-}
-
+ }
 }

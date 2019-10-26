@@ -38,7 +38,7 @@ public String getTicketPreferencial(){
  public int getTicketChamado(){
   return ticketChamado;
  }
- private void setTicketChamado(int x){
+ public void setTicketChamado(int x){
   ticketChamado = x;
  }
 
@@ -77,7 +77,7 @@ public void addFilaPreferencial(ArrayList<Ticket> fila){
  * usuario normal depois que todos os usuarios 
  * Preferenciais estiverem sido atendidos.
  */
- public void atendeFila(ArrayList<Ticket> fila){
+ public void atendeFila(ArrayList<Ticket> fila, ArrayList<String> emAtendimento){
   int tamanhoFila = fila.size();
   int contaFila = 0;
   int regraPreferencial = 0;
@@ -87,7 +87,10 @@ public void addFilaPreferencial(ArrayList<Ticket> fila){
     String tipoTicket = fila.get(contaFila).getTicketPreferencial().substring(0,1);
     if(status == 0 && tipoTicket.equals("P")){
       fila.get(contaFila).setStatusAtendimento(1);
-      //fila.get(contaFila).setTicketChamado(1);
+      fila.get(contaFila).setTicketChamado(1);
+      //contabiliza o atendimento
+	emAtendimento.add(fila.get(contaFila).
+			getTicketPreferencial());
       regraPreferencial = 1;
       break;
     }
@@ -100,7 +103,10 @@ public void addFilaPreferencial(ArrayList<Ticket> fila){
      String tipoTicket = fila.get(i).getTicketNormal().substring(0,1);
      if(status == 0 && tipoTicket.equals("N")){
         fila.get(i).setStatusAtendimento(1);
-	      //fila.get(i).setTicketChamado(1);
+	fila.get(i).setTicketChamado(1);
+	//contabiliza o atendimento
+        emAtendimento.add(fila.get(i).
+                        getTicketPreferencial());
         break;
      }
     }
