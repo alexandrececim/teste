@@ -6,18 +6,20 @@ import java.util.Scanner;
 
 public class ServidorMsn{
  
+  //variavel que pega a chamada da fila
   private static String consultaChamada = "";
+
   public static void main(String[] args) {
    //System.out.println("Alouu");
     ArrayList<Ticket> fila = new ArrayList<Ticket>();
-    
+    ArrayList<String> foiChamado = new ArrayList<String>();
 
     //operando(12345, fila, ticket);
-    operando(12345, fila);
+    operando(12345, fila, foiChamado);
   
  }
 
- private static void operando(int porta, ArrayList<Ticket> fila){
+ private static void operando(int porta, ArrayList<Ticket> fila, ArrayList<String> foiChamado){
   try {
     // Instancia o ServerSocket ouvindo a porta 12345
     ServerSocket servidor = new ServerSocket(porta);
@@ -30,7 +32,7 @@ public class ServidorMsn{
       String msnCliente = entrada.nextLine();
       System.out.println("Msn: " + msnCliente);
 
-        protocoloMsn(msnCliente, fila);
+        protocoloMsn(msnCliente, fila, foiChamado);
         
       //resposta
       if(consultaChamada.isEmpty()){
@@ -59,7 +61,7 @@ public class ServidorMsn{
    *  4) c4 - Altera status de atendimento (chamada para proximo ticket). 
    *  5) c5 - Retorna o ticket em atendimento.
    */
-  private static void protocoloMsn(String msn, ArrayList<Ticket> fila) {
+  private static void protocoloMsn(String msn, ArrayList<Ticket> fila, ArrayList<String> foiChamado) {
     System.out.println("Chegou na leitura do protocolo.");
     Ticket ticket = new Ticket();
     String[] protocoloMsn = msn.split("-");
@@ -89,24 +91,26 @@ public class ServidorMsn{
       }
 
       if(msnParm.equals("c4")){
-        ticket.atendeFila(fila); 
+        ticket.atendeFila(fila, foiChamado); 
        
       }
       
       if(msnParm.equals("c5")){
-        String callTicket = emAtendimento(fila);
-        System.out.println("Elemento: " + callTicket);
+        String callTicket = emAtendimento(foiChamado);
+        //System.out.println("Elemento: " + callTicket);
         consultaChamada = callTicket;
         
       }
       System.out.println("####### Fila #######");
 
-    //visualizar lista para teste do sistema   
+    //visualizar lista para teste do sistema  
+    /* 
       int xt = fila.size();
       for(int i = 0; xt > i; i++){
            System.out.println("["+i+"] "+	fila.get(i).getTicketNormal() + " .... At.: " +	fila.get(i).getStatusAtendimento() + " .... Ch.: " +	fila.get(i).getTicketChamado());
       }
       System.out.println("******************");
+      */
     //fim da visualização
 
     }else{
@@ -116,45 +120,16 @@ public class ServidorMsn{
  }
 
 // Metodo que mostra o ticket chamado da lista de atendimento
-  private static String emAtendimento(ArrayList<Ticket> fila){
-    int xt = fila.size();
-    ArrayList<String> filaChamada = new ArrayList<String>();
-
-    int ticketEmAtendimento;
-    String chamadaFila = "";
-    
-  // for inverso para pegar a ultima alteração da lista
-    for(int i = xt - 1 ; i >= 0; i--){
-      
-      //ticketEmAtendimento = fila.get(i).getTicketChamado();
-      ticketEmAtendimento = fila.get(i).getStatusAtendimento();
-      //System.out.println("ticket em atendimento" + ticketEmAtendimento);
-
-    if(ticketEmAtendimento == 1){
-     
-     
-     // System.out.println(i);
-      if(fila.get(i).getTicketChamado() == 1){
-     
-        //chamadaFila = fila.get(i).getTicketPreferencial();
-        //break;
-        filaChamada.add(fila.get(i).getTicketPreferencial());
-      }else{
-        //chamadaFila = fila.get(i).getTicketNormal();
-       // break;
-       filaChamada.add(fila.get(i).getTicketNormal());
-      }
-      
-    }
+private static String emAtendimento(ArrayList<String> foiChamado){
+  int xt = foiChamado.size() - 1;
+  String chamandoDaFila;
+  if(xt > -1){
+    chamandoDaFila = foiChamado.get(xt);
+  }else{
+    chamandoDaFila = "Atendimento não inicializado";
   }
-  //chama o primeiro da fila com indice zero
-  if (filaChamada.size() > 0) {
-    chamadaFila = filaChamada.get(filaChamada.size()-1);
-  }
-  
- 
-    return chamadaFila;
+  return chamandoDaFila;
 
-  }
+ }
 
 }
